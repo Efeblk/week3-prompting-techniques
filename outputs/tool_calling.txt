@@ -1,0 +1,2 @@
+﻿[PASS] tool called with order_id='4412'
+tool result: shipped, arriving Friday

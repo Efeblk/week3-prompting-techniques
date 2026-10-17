@@ -1,0 +1,5 @@
+﻿[PASS] 'My card was charged twice for order 4412.' -> got 'billing', expected 'billing'
+[PASS] "Where is my package? It's been two weeks." -> got 'shipping', expected 'shipping'
+[PASS] 'I want to send the shoes back for a refund.' -> got 'returns', expected 'returns'
+[PASS] 'The app crashes every time I open my cart.' -> got 'technical', expected 'technical'
+4/4 correct

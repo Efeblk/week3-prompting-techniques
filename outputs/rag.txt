@@ -1,0 +1,4 @@
+[PASS] 'How long do I have to return an item?' -> 'you may return most items within 30 days of delivery for a full refund.'
+[PASS] 'Do you ship internationally?' -> 'yes, we offer international shipping to most countries.'
+[PASS] "What's your CEO's home address?" -> "i don't know based on the provided help-center documents."
+3/3 correct

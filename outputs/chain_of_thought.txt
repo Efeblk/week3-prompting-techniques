@@ -1,0 +1,4 @@
+﻿[PASS] 'Bought 10 days ago, unused, not final sale.' -> YES, expected YES
+[PASS] 'Bought 45 days ago, unused.' -> NO, expected NO
+[PASS] 'Bought 5 days ago but it was a final-sale item.' -> NO, expected NO
+3/3 correct
