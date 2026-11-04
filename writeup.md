@@ -49,8 +49,7 @@ other"""
     - `'i would classify this customer support ticket as "technical". the issue described is related to the functionality of the app...'`
   - **Iteration 2 (5-shot prompt with one example per label + explicit single-word rule — 4/4 passed):** Providing concrete `Customer: ...` -> `<label>` examples alongside the no-punctuation rule constrained the model to emit only the bare lowercase label.
 
-<!-- TODO (you): write this yourself. Course policy (Week 1 slides, p.16): no AI for reflections. -->
-**What I learned:** _TODO: one line on how this technique changed the result._
+**What I learned:** Just saying "classify" made the model chat and fail (0/4), while 5 examples forced a clean one-word answer (4/4).
 
 ---
 
@@ -89,8 +88,7 @@ Do not add any punctuation, markdown, or extra text on the final line."""
     The grader in `decide()` only inspects `text.splitlines()[-1].upper()` for `"DECISION: YES"` or `"DECISION: NO"`. Without an explicit output contract for the final line, the model concluded with natural-language summary sentences instead of the exact tag.
   - **Iteration 2 (numbered 3-step policy check + strict final-line format — 3/3 passed):** Instructing the model to walk through each of the 3 policy conditions by number and end with literally `DECISION: YES` or `DECISION: NO` on the final line passed 3/3 across repeated runs.
 
-<!-- TODO (you): write this yourself. Course policy (Week 1 slides, p.16): no AI for reflections. -->
-**What I learned:** _TODO: one line on how this technique changed the result._
+**What I learned:** "Think step by step" rambled and scored 0/3 until I required numbered steps ending with `DECISION: YES/NO` (3/3).
 
 ---
 
@@ -139,8 +137,7 @@ YOUR_SYSTEM_PROMPT = (
   - **Baseline (empty tool descriptions and empty system prompt — 1/1 passed):** Even with `description: ""` and `YOUR_SYSTEM_PROMPT = ""`, `llama3.1:8b` actually emitted a tool call `get_order_status(order_id='4412')` because Ollama passes `TOOLS` natively and the function/parameter identifiers (`get_order_status`, `order_id`) were self-descriptive enough for the simple prompt `"Hi, can you check on order 4412 for me?"`.
   - **Iteration 1 (explicit schema descriptions + system prompt — 1/1 passed):** Relying on empty descriptions is fragile because the model could either answer conversationally without invoking the tool or pass `order_id="#4412"` / `"order 4412"`, which would fail the strict check `order_id == "4412"`. Adding explicit descriptions to the schema and instructing the model in `YOUR_SYSTEM_PROMPT` to always call `get_order_status` with the digits-only `order_id` guaranteed reliable tool invocation.
 
-<!-- TODO (you): write this yourself. Course policy (Week 1 slides, p.16): no AI for reflections. -->
-**What I learned:** _TODO: one line on how this technique changed the result._
+**What I learned:** Obvious function names worked even with empty descriptions, though adding descriptions made it dependable.
 
 ---
 
@@ -197,13 +194,10 @@ YOUR_SYSTEM_PROMPT = """You are a customer support assistant. Answer the custome
   - **Iteration 2 (stopword removal + 4-character prefix/stem matching + explicit refusal phrasing — 3/3 passed):** Filtering out short/stopword tokens and matching words that share a 4-character prefix (`"ship"` <-> `"shipping"`, `"internationally"` <-> `"international"`) retrieved the shipping policy chunk and passed all 3/3 cases reliably.
   - **Iteration 3 (removing a test-specific hint — 3/3 passed):** The Iteration 2 prompt said to include details "such as timeframes or international shipping availability", which names the content of a test case and could overfit the prompt to the grader. I replaced it with a generic rule ("answer using the wording of the relevant Context line, including specific details such as numbers and timeframes") and it still passed 3/3 on repeated runs.
 
-<!-- TODO (you): write this yourself. Course policy (Week 1 slides, p.16): no AI for reflections. -->
-**What I learned:** _TODO: one line on how this technique changed the result._
+**What I learned:** With no context, the model guessed and got lucky; retrieval only worked once search matched "ship" to "shipping".
 
 ---
 
 ## Closing Reflection
 
-<!-- TODO (you): write this yourself. Course policy (Week 1 slides, p.16): no AI for reflections. -->
-
-_TODO: a paragraph on why LLMs are good at structured tasks and where they need scaffolding._
+LLMs are great at structured tasks once they see a clear pattern to copy. They struggle when prompts are open-ended or lack real data—without strict output formats and solid search logic, they either ramble or make things up.
